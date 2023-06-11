@@ -16,7 +16,6 @@ function convert_to_eng_with_esc()
 	hs.eventtap.keyStroke({}, 'escape')
 	esc_bind:enable()
 end
-esc_bind = hs.hotkey.new({}, 'escape', convert_to_eng_with_esc):enable()
 --https://coldmater.tistory.com/177
 -- ctrl+[
 function hello()
@@ -26,6 +25,17 @@ function hello()
 	end
 	hs.eventtap.keyStroke({}, 'escape')
 end
-hs.hotkey.bind({'control'}, 33, hello)
-hs.hotkey.bind({'control'}, 'c', hello)
-hs.hotkey.bind({'control'}, 'o',hello)
+hs.hotkey.bind({'control'}, 33, convert_to_eng_with_esc)
+
+
+
+function changeInput()
+	local inputSource =hs.keycodes.currentSourceID()
+	if not inputSource == inputEnglish then
+		hs.keycodes.currentSourceID(inputEnglish)
+	end
+end
+hs.hotkey.bind({'control'}, 'o',convert_to_eng_with_esc)
+
+
+esc_bind = hs.hotkey.new({}, 'escape', convert_to_eng_with_esc):enable()
