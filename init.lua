@@ -9,7 +9,7 @@ local esc_bind
 function convert_to_eng_with_esc()
 	local inputSource = hs.keycodes.currentSourceID()
 	if not (inputSource == inputEnglish) then
-		hs.eventtap.keyStroke({}, 'right')
+		--hs.eventtap.keyStroke({}, 'right')  -- right click
 		hs.keycodes.currentSourceID(inputEnglish)
 	end
 	esc_bind:disable()
@@ -28,14 +28,21 @@ end
 hs.hotkey.bind({'control'}, 33, convert_to_eng_with_esc)
 
 
-
 function changeInput()
 	local inputSource =hs.keycodes.currentSourceID()
 	if not inputSource == inputEnglish then
 		hs.keycodes.currentSourceID(inputEnglish)
-	end
+	end	
 end
 hs.hotkey.bind({'control'}, 'o',convert_to_eng_with_esc)
 
 
 esc_bind = hs.hotkey.new({}, 'escape', convert_to_eng_with_esc):enable()
+
+-- command + esc -> command + `
+function convertab()
+	esc_bind:disable()
+	hs.eventtap.keyStroke({"cmd"},'`')
+	esc_bind:enable()
+end
+hs.hotkey.bind({"cmd"},'escape',convertab)
