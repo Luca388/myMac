@@ -9,7 +9,7 @@ local esc_bind
 function convert_to_eng_with_esc()
 	local inputSource = hs.keycodes.currentSourceID()
 	if not (inputSource == inputEnglish) then
-		hs.eventtap.keyStroke({}, 'right')  -- right click
+		--hs.eventtap.keyStroke({}, 'right')  -- right click
 		hs.keycodes.currentSourceID(inputEnglish)
 	end
 	esc_bind:disable()
@@ -59,5 +59,12 @@ hs.hotkey.bind({"cmd"},"tab",ctrlopt)
 local FRemap = require('foundation_remapping')
 local remapper = FRemap.new()
 remapper:remap('rcmd', 'f18')
-remapper:remap('ralt','lcmd')
+remapper:remap('ralt','rcmd')
 remapper:register()
+
+-- ctrl + esc -> ctrl + `
+
+
+
+
+-- opt + esc -> opt + `
