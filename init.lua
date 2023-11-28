@@ -64,7 +64,19 @@ remapper:register()
 
 -- ctrl + esc -> ctrl + `
 
+function ctrlesc()
+	esc_bind:disable()
+	hs.eventtap.keyStroke({"ctrl"},'`')
+	esc_bind:enable()
+end
+hs.hotkey.bind({"ctrl"},'escape',ctrlesc)
 
 
 
 -- opt + esc -> opt + `
+function optesc()
+	esc_bind:disable()
+	hs.eventtap.keyStroke({"option"},'`')
+	esc_bind:enable()
+end
+hs.hotkey.bind({"option"},'escape',optesc)
