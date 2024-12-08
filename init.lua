@@ -3,35 +3,51 @@
 -- Convert input soruce as English and sends 'escape' if inputSource is not English.
 -- Sends 'escape' if inputSource is English.
 -- key bindding reference --> https://www.hammerspoon.org/docs/hs.hotkey.html
+-- /Users/yu/.hammerspoon/init.lua
+-- Key mapping for Vim with Hammerspoon
+-- Automatically switches input source to English when necessary.
+
 local inputEnglish = "com.apple.keylayout.ABC"
 local esc_bind
 
--- spotlight
+-- Function to switch input source to English
 function convert_to_eng()
-	local inputSource = hs.keycodes.currentSourceID()
-	if not (inputSource == inputEnglish) then
-		hs.keycodes.currentSourceID(inputEnglish)
-	end
+    local inputSource = hs.keycodes.currentSourceID()
+    if not (inputSource == inputEnglish) then
+        hs.keycodes.currentSourceID(inputEnglish)
+    end
 end
+
+-- Spotlight: Cmd + Space
+-- Modified to execute Spotlight and input source switching in parallel
+-- Spotlight: Cmd + Space
 hs.hotkey.bind({"cmd"}, "space", function()
-    -- Cmd + Space 눌렀을 때 Spotlight 열기
-    hs.eventtap.keyStroke({"cmd"}, "\\")
-    -- 입력 소스를 영어로 변경
+    -- 입력 소스를 먼저 영어로 전환
     convert_to_eng()
+    -- Spotlight 열기
+    hs.eventtap.keyStroke({"cmd"}, "\\")
 end)
 
---https://johngrib.github.io/wiki/hammerspoon-tutorial-03/
--- ctrl+esc
+-- Ctrl + Esc
 function convert_to_eng_with_esc()
-	local inputSource = hs.keycodes.currentSourceID()
-	if not (inputSource == inputEnglish) then
-		hs.eventtap.keyStroke({}, 'right')  -- right click
-		hs.keycodes.currentSourceID(inputEnglish)
-	end
-	esc_bind:disable()
-	hs.eventtap.keyStroke({}, "escape")
-	esc_bind:enable()
+    local inputSource = hs.keycodes.currentSourceID()
+    if not (inputSource == inputEnglish) then
+        hs.keycodes.currentSourceID(inputEnglish)
+    end
+    esc_bind:disable()
+    hs.eventtap.keyStroke({}, "escape")
+    esc_bind:enable()
 end
+
+-- Bind Ctrl + [
+hs.hotkey.bind({ "control" }, 33, convert_to_eng_with_esc)
+
+-- Esc bind setup
+esc_bind = hs.hotkey.new({}, "escape", convert_to_eng_with_esc):enable()
+
+
+
+
 
 --https://coldmater.tistory.com/177
 -- ctrl+[
@@ -42,7 +58,6 @@ end
 -- 	end
 -- 	hs.eventtap.keyStroke({}, 'escape')
 -- end
-hs.hotkey.bind({ "control" }, 33, convert_to_eng_with_esc)
 
 -- function changeInput()
 -- 	local inputSource =hs.keycodes.currentSourceID()
@@ -60,7 +75,13 @@ hs.hotkey.bind({ "control" }, 33, convert_to_eng_with_esc)
 -- end
 
 
-esc_bind = hs.hotkey.new({}, "escape", convert_to_eng_with_esc):enable()
+
+-- for iPad
+-- Option + Space -> Command + Space
+-- hs.hotkey.bind({"alt"}, "space", function()
+--     hs.eventtap.keyStroke({"cmd"}, "space")
+-- end)
+
 
 -- command + esc -> command + `
 
